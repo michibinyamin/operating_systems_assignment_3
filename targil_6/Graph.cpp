@@ -147,7 +147,7 @@ class Graph{
                 string numbers_part = command.substr(11);
                 istringstream iss(numbers_part);
                 char comma;
-                // Read the numbers separated by comma
+                // Read the numbers separated by comma  
                 iss >> v >> comma >> m;
                 if(Removeedge(v,m)){
                     string success_msg = "Edge (" + to_string(v) + " -> " + to_string(m) + ") removed.\n";
@@ -162,13 +162,12 @@ class Graph{
             }else if(command.find("Kosaraju") == 0){
                 vector<vector<int>> ans = findSCC(size, edges);
                 string scc_msg = "Strongly Connected Components are:\n";
-                //cout << "Strongly Connected Components are:\n";
                 for (auto x : ans) {
                     for (auto y : x) {
                         scc_msg += to_string(y) + " ";
                     }
+                    scc_msg += "\n";
                 }
-                scc_msg += "\n";
                 write(current_client_fd, scc_msg.c_str(), scc_msg.size());
 
             }else {
@@ -176,5 +175,17 @@ class Graph{
                 write(current_client_fd, error_msg.c_str(), error_msg.size());
                 //cout << "Invalid command.\n";
             }
+        }
+
+        void PrintEdges(){
+            cout << "Graph edges are:\n";
+            for (size_t i = 0; i < edges.size(); i++)
+            {
+                cout << edges.at(i)[0];
+                cout << ",";
+                cout << edges.at(i)[1];
+                cout << " ";
+            }
+            cout << "\n";
         }
 };

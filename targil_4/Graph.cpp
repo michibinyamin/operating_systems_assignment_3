@@ -107,7 +107,7 @@ class Graph{
 
             return ans;
     }
-    public :
+    public : 
         void Command_handle(int client, string command){
             current_client_fd = client;
             int v = 0;

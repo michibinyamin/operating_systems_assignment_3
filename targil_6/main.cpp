@@ -152,6 +152,7 @@ int main() {
                 else   // Data from an existing client
                 {  
                     reactor->callbacks.at(i)(current.fd);
+                    //graph.PrintEdges();
                 }
             }
         }

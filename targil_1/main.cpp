@@ -3,8 +3,7 @@ using namespace std;
 
 class KOSARAJU {
 public:
-    bool dfs_Algo(int curr, int des, vector<vector<int> >& adj,
-                  vector<int>& vis)
+    bool dfs_Algo(int curr, int des, vector<vector<int> >& adj, vector<int>& vis)
     {
         if (curr == des) {
             return true;
@@ -96,3 +95,5 @@ int main()
         cout << "\n";
     }
 }
+
+
