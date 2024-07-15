@@ -14,7 +14,7 @@
 #include <csignal>
 #include <poll.h>
 #include "Graph.cpp"
-#include "Reactor.cpp"
+#include "Reactor.h"
 
 #define PORT 9034
 #define BUFFER_SIZE 1024

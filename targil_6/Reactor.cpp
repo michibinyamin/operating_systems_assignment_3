@@ -6,15 +6,16 @@
 #include <unordered_map>
 #include <iostream>
 #include <algorithm> // Include the algorithm header for std::find_if
+#include "Reactor.h"
 
-// Define the reactorFunc type
-typedef void (*reactorFunc) (int fd);
+// // Define the reactorFunc type
+// typedef void (*reactorFunc) (int fd);
 
-// Define the reactor struct
-typedef struct Reactor {
-    std::vector<pollfd> fds;
-    std::vector<reactorFunc> callbacks;
-} reactor;
+// // Define the reactor struct
+// typedef struct Reactor {
+//     std::vector<pollfd> fds;
+//     std::vector<reactorFunc> callbacks;
+// } reactor;
 
 // Function declarations
 void* startReactor(){

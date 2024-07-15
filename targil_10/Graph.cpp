@@ -16,11 +16,18 @@ using namespace std;
 
 #define BUFFER_SIZE 1024
 
+// Declare the variables with extern
+extern pthread_cond_t cond;
+extern pthread_mutex_t pmutex;
+extern bool over_fifty;
+
 class Graph{
     private :
         int size;
         int current_client_fd;
         vector<vector<int>> edges;
+
+        bool condition = false;
 
         bool New_graph(int v, int m){
             char buffer[BUFFER_SIZE];
@@ -160,16 +167,36 @@ class Graph{
                     //cout << "No such edge";
                 }
             }else if(command.find("Kosaraju") == 0){
+                bool bigger = false;
+                int count;
                 vector<vector<int>> ans = findSCC(size, edges);
                 string scc_msg = "Strongly Connected Components are:\n";
                 for (auto x : ans) {
+                    count = 0;
                     for (auto y : x) {
+                        // This is for checking if there is a component which is bigger then 50 percent of the graph
+                        if(++count >= size/2){  // There is a component which is over 50 percent
+                            bigger = true;
+                            if(!over_fifty){    // It was under 50 percent before
+                                over_fifty = true;
+                                condition = true;
+                            }
+                        }
                         scc_msg += to_string(y) + " ";
                     }
                     scc_msg += "\n";
                 }
+                if(!bigger){      // No component bigger then 50 percent
+                    if(over_fifty){     // It was over 50 percent before
+                        over_fifty = false;
+                        condition = true;
+                    }
+                }
                 write(current_client_fd, scc_msg.c_str(), scc_msg.size());
-
+                if(condition){
+                    pthread_cond_signal(&cond); // Signal the consumer thread
+                    condition = false;
+                }
             }else {
                 string error_msg = "Invalid command.\n";
                 write(current_client_fd, error_msg.c_str(), error_msg.size());
